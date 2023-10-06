@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DogsModule } from './dogs/dogs.module';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 import { SequelizeModule } from '@nestjs/sequelize';
-import { sequelize } from './database.config'; // Importa la configuración de Sequelize
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { sequelize } from './database.config'; // Importa la configuración de S
       database: 'dog_manager',
       autoLoadModels: true, // Esto carga automáticamente los modelos definidos
     }),
-    DogsModule
+    DogsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

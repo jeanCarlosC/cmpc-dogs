@@ -1,7 +1,24 @@
-import { Model, Table, Column, DataType } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, ForeignKey } from 'sequelize-typescript';
+import { Breed } from './breed.model';
+import { Subbreed } from './subbreed.model';
 
 @Table
-export class Dog  extends Model<Dog> {
+export class Dog extends Model<Dog> {
+
+  @ForeignKey(() => Breed)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  breed_id: number;
+
+  @ForeignKey(() => Subbreed)
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  subbreed_id: number;
+
   @Column({
     type: DataType.STRING,
     allowNull: false,
@@ -24,5 +41,5 @@ export class Dog  extends Model<Dog> {
     type: DataType.INTEGER,
     allowNull: false,
   })
-  age: number;
+  birthDate: Date;
 }
