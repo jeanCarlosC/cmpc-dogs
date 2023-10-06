@@ -1,0 +1,27 @@
+version: '3'
+services:
+  # Servicio de la base de datos MySQL
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: dog_manager
+    ports:
+      - '3306:3306'
+    networks:
+      - nestjs-network
+
+  # Servicio de la aplicación NestJS
+  nestjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mysql
+    networks:
+      - nestjs-network
+
+networks:
+  nestjs-network:
