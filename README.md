@@ -1,73 +1,546 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# cmpc-dogs
+Api para gestión e inventario de mascotas CMPC.
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+### Descripción
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+API de gestión de mascotas.
 
-## Description
+### Construcción 🛠️
+* **Tipo:** API Rest
+* **Lenguaje:** NodeJS
+* **Framework:** NestJS
+* **Base de datos:** Mysql
+* **ORM:** Sequelize
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Autor ✒️
+* **Autores:** Jean Carlos Cuadros, cuadrosjean26@gmail.com.
 
-## Installation
+### Estructura del proyecto 📂
+- **src:** Carpeta que contiene el código fuente del proyecto.
+- **src/config:** Carpeta que contiene la configuración de la base de datos.
+- **src/common:** Carpeta que contiene los archivos de handler de validación y estructura de respuesa.
+- **src/filters:** Carpeta que contiene los filtros de excepciones.
+- **src/dogs:** Carpeta que contiene los archivos de controlador, servicio, modelo y dto de la entidad dogs.
+- **src/breeds:** Carpeta que contiene los archivos de controlador, servicio, modelo y dto de la entidad breeds.
+- **src/subbreeds:** Carpeta que contiene los archivos de controlador, servicio, modelo y dto de la entidad subbreeds.
+- **src/modulo/validators:** Carpeta que contiene los archivos de validaciones que aplica el handler de validación.
 
-```bash
-$ npm install
+
+Se implemento el patron de diseño Chain of Responsibility para la validación de las reglas de negocio, se creo una clase ValidationHandler al cual se le puede agregar un pool de validadores y la funcion handler los invoca opr medio de la funcion validate, si la validación es exitosa pasa al siguiente validador, si la validación falla se retorna un error con el mensaje correspondiente.
+
+
+### Pre-requisitos 📋
+
+- Docker.
+
+### Instalación 🔧
+
+- Clonar proyecto.
+- Crear archivo `.env` en la carpeta raíz. Se incluye archivo `.env.example` como referencia, que se puede usar tal cual como está.
+- Ejecutar `docker-compose build` para construir las imágenes de Docker. Sólo es necesario hacerlo una vez.
+- Ejecutar `docker-compose up` para levantar los servicios. Si se quiere ejecutar en segundo plano, usar `docker-compose up -d`.
+
+
+
+### Información de cómo realizar las peticiones al API 📖
+El API se encuentra disponible en la URL `http://localhost:3001`. 
+
+### Información de los endpoints disponibles del API 📖
+En esta sección se detallan los endpoints disponibles en la API.
+
+Todos los endpoints reciben las siguientes cabeceras:
+- **Content-Type:** `application/json`
+
+#### Mascotas
+
+- **Descripción:** Crear una mascota.
+- **Método:** `POST`
+- **URL:** `/dogs`
+- **Body:**
+```json
+{
+    "name": "Nombre de la mascota",
+    "breed_id": "Raza de la mascota",
+    "subbreed_id": "Subraza de la mascota",
+    "color": "Color de la mascota",
+    "birthDate": "Fecha de nacimiento"
+}
+```
+- **Respuesta:**
+```json
+{
+    "message": "Mascota creada correctamente",
+    "data": {
+        "id": "Id de la mascota",
+        "name": "Nombre de la mascota",
+        "breed_id": "Raza de la mascota",
+        "subbreed_id": "Subraza de la mascota",
+        "color": "Color de la mascota",
+        "birthDate": "Fecha de nacimiento"
+    },
+    "status": "201"
+
+}
 ```
 
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+- **Respuesta Fallida**
+- **code:** 400
+- **Respuesta:**
+```json
+{
+    "message": "Errores de validación",
+    "errors": [
+      "Color must be string" 
+    ]
+}
 ```
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+-**code:** 409
+- **Respuesta:**
+```json
+{
+    "message": "La mascota con el nombre Thor ya existe.",
+    "status": 409
+}
 ```
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **Descripción:** Obtener todas las mascotas.
+- **Método:** `GET`
+- **URL:** `/dogs`
+- **Respuesta:**
+```json
+{
+    "message": "Mascotas obtenidas correctamente",
+    "data": [
+        {
+            "id": "Id de la mascota",
+            "name": "Nombre de la mascota",
+            "breed_id": "Raza de la mascota",
+            "subbreed_id": "Subraza de la mascota",
+            "color": "Color de la mascota",
+            "birthDate": "Fecha de nacimiento"
+        }
+    ],
+    "status": "200"
+}
+```
 
-## Stay in touch
+- **Descripción:** Obtener una mascota por su id.
+- **Método:** `GET`
+- **URL:** `/dogs/:id`
+- **Respuesta:**
+```json
+{
+    "message": "Mascota obtenida correctamente",
+    "data": {
+        "id": "Id de la mascota",
+        "name": "Nombre de la mascota",
+        "breed_id": "Raza de la mascota",
+        "subbreed_id": "Subraza de la mascota",
+        "color": "Color de la mascota",
+        "birthDate": "Fecha de nacimiento"
+    },
+    "status": "200"
+}
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- **Descripción:** Actualizar una mascota.
+- **Método:** `PUT`
+- **URL:** `/dogs/:id`
+- **Body:**
+```json
+{
+    "name": "Nombre de la mascota",
+    "breed_id": "Raza de la mascota",
+    "subbreed_id": "Subraza de la mascota",
+    "color": "Color de la mascota",
+    "birthDate": "Fecha de nacimiento"
+}
+```
+- **Respuesta:**
+```json
+{
+    "message": "Mascota actualizada correctamente",
+    "data": {
+        "id": "Id de la mascota",
+        "name": "Nombre de la mascota",
+        "breed_id": "Raza de la mascota",
+        "subbreed_id": "Subraza de la mascota",
+        "color": "Color de la mascota",
+        "birthDate": "Fecha de nacimiento"
+    },
+    "status": "200"
+}
+```
+- **Respuesta Fallida**
+- **code:** 400
+- **Respuesta:**
+```json
+{
+    "message": "Errores de validación",
+    "errors": [
+      "Color must be string" 
+    ]
+}
+```
 
-## License
+-**code:** 409
+- **Respuesta:**
+```json
+{
+    "message": "La mascota con el nombre Thor ya existe.",
+    "status": 409
+}
+```
 
-Nest is [MIT licensed](LICENSE).
+- **Descripción:** Eliminar una mascota.
+- **Método:** `DELETE`
+- **URL:** `/dogs/:id`
+- **Respuesta:**
+```json
+{
+    "message": "Mascota eliminada correctamente",
+    "status": "200"
+}
+```
+
+#### Razas
+
+- **Descripción:** Crear una raza.
+- **Método:** `POST`
+- **URL:** `/breeds`
+- **Body:**
+```json
+{
+    "name":"bulldog",
+    "description":"perro pequeño con pelaje corto",
+    "origin":"francia, inglaterra",
+    "height":2,
+    "weight":5,
+    "lifeSpan":"12 años"
+}
+```
+- **Respuesta:**
+```json
+{
+    "message": "Raza creada correctamente",
+    "data": {
+        "id": "Id de la raza",
+        "name":"bulldog",
+        "description":"perro pequeño con pelaje corto",
+        "origin":"francia, inglaterra",
+        "height":2,
+        "weight":5,
+        "lifeSpan":"12 años"
+    },
+    "status": "201"
+
+}
+```
+- **Respuesta Fallida**
+- **code:** 400
+- **Respuesta:**
+```json
+{
+    "message": "Errores de validación",
+    "errors": [
+        "name must be longer than or equal to 3 characters",
+        "name must be a string"
+    ]
+}
+```
+-**code:** 409
+- **Respuesta:**
+```json
+{
+    "message": "La raza con el nombre bulldog ya existe.",
+    "status": 409
+}
+```
+
+- **Descripción:** Obtener todas las razas.
+- **Método:** `GET`
+- **URL:** `/breeds`
+- **Respuesta:**
+```json
+{
+    "message": "Razas obtenidas correctamente",
+    "data": [
+        {
+            "id": "Id de la raza",
+            "name":"bulldog",
+            "description":"perro pequeño con pelaje corto",
+            "origin":"francia, inglaterra",
+            "height":2,
+            "weight":5,
+            "lifeSpan":"12 años"
+        }
+    ],
+    "status": "200"
+}
+```
+
+- **Descripción:** Obtener una raza por su id.
+- **Método:** `GET`
+- **URL:** `/breeds/:id`
+- **Respuesta:**
+```json
+{
+    "message": "Raza obtenida correctamente",
+    "data": {
+        "id": "Id de la raza",
+        "name":"bulldog",
+        "description":"perro pequeño con pelaje corto",
+        "origin":"francia, inglaterra",
+        "height":2,
+        "weight":5,
+        "lifeSpan":"12 años"
+    },
+    "status": "200"
+}
+```
+- **Respuesta Fallida**
+- **code:** 404
+- **Respuesta:**
+```json
+{
+    "message": "No se encontró la raza con el id 1",
+    "status": 404
+}
+```
+
+- **Descripción:** Actualizar una raza.
+- **Método:** `PUT`
+- **URL:** `/breeds/:id`
+- **Body:**
+```json
+{
+    "name":"bulldog",
+    "description":"perro pequeño con pelaje corto",
+    "origin":"francia, inglaterra",
+    "height":2,
+    "weight":5,
+    "lifeSpan":"12 años"
+}
+```
+- **Respuesta:**
+```json
+{
+    "message": "Raza actualizada correctamente",
+    "data": {
+        "id": "Id de la raza",
+        "name":"bulldog",
+        "description":"perro pequeño con pelaje corto",
+        "origin":"francia, inglaterra",
+        "height":2,
+        "weight":5,
+        "lifeSpan":"12 años"
+    },
+    "status": "200"
+}
+``` 
+- **Respuesta Fallida**
+- **code:** 404
+- **Respuesta:**
+```json
+{
+    "message": "No se encontró la raza con el id 1",
+    "status": 404
+}
+```
+
+- **Descripción:** Eliminar una raza.
+- **Método:** `DELETE`
+- **URL:** `/breeds/:id`
+- **Respuesta:**
+```json
+{
+    "message": "Raza eliminada correctamente",
+    "status": "200"
+}
+```
+- **Respuesta Fallida**
+- **code:** 404
+- **Respuesta:**
+```json
+{
+    "message": "No se encontró la raza con el id 1",
+    "status": 404
+}
+```
+
+#### Subrazas
+
+- **Descripción:** Crear una subraza.
+- **Método:** `POST`
+- **URL:** `/subbreeds`
+- **Body:**
+```json
+{
+    "name":"Buldog frances",
+    "breed_id":1,
+    "description":"pelo corto y bajo"
+}
+```
+- **Respuesta:**
+```json
+{
+    "message": "Subraza creada correctamente",
+    "data": {
+        "id": "Id de la subraza",
+        "name":"Buldog frances",
+        "breed_id":1,
+        "description":"pelo corto y bajo"
+    },
+    "status": "201"
+
+}
+```
+- **Respuesta Fallida**
+- **code:** 400
+- **Respuesta:**
+```json
+{
+    "message": "Errores de validación",
+    "errors": [
+        "name must be longer than or equal to 3 characters",
+        "name must be a string"
+    ]
+}
+```
+-**code:** 409
+- **Respuesta:**
+```json
+{
+    "message": "La subraza con el nombre Buldog frances ya existe.",
+    "status": 409
+}
+```
+
+- **Descripción:** Obtener todas las subrazas.
+- **Método:** `GET`
+- **URL:** `/subbreeds`
+- **Respuesta:**
+```json
+{
+    "message": "Subrazas obtenidas correctamente",
+    "data": [
+        {
+            "id": "Id de la subraza",
+            "name":"Buldog frances",
+            "breed_id":1,
+            "description":"pelo corto y bajo"
+        }
+    ],
+    "status": "200"
+}
+```
+
+- **Descripción:** Obtener una subraza por su id.
+- **Método:** `GET`
+- **URL:** `/subbreeds/:id`
+- **Respuesta:**
+```json
+{
+    "message": "Subraza obtenida correctamente",
+    "data": {
+        "id": "Id de la subraza",
+        "name":"Buldog frances",
+        "breed_id":1,
+        "description":"pelo corto y bajo"
+    },
+    "status": "200"
+}
+```
+- **Respuesta Fallida**
+- **code:** 404
+- **Respuesta:**
+```json
+{
+    "message": "No se encontró la subraza con el id 1",
+    "status": 404
+}
+```
+
+- **Descripción:** Actualizar una subraza.
+- **Método:** `PUT`
+- **URL:** `/subbreeds/:id`
+- **Body:**
+```json
+{
+    "name":"Buldog frances",
+    "breed_id":1,
+    "description":"pelo corto y bajo"
+}
+```
+- **Respuesta:**
+```json
+{
+    "message": "Subraza actualizada correctamente",
+    "data": {
+        "id": "Id de la subraza",
+        "name":"Buldog frances",
+        "breed_id":1,
+        "description":"pelo corto y bajo"
+    },
+    "status": "200"
+}
+```
+- **Respuesta Fallida**
+- **code:** 404
+- **Respuesta:**
+```json
+{
+    "message": "No se encontró la subraza con el id 1",
+    "status": 404
+}
+```
+
+- **Descripción:** Eliminar una subraza.
+- **Método:** `DELETE`
+- **URL:** `/subbreeds/:id`
+- **Respuesta:**
+```json
+{
+    "message": "Subraza eliminada correctamente",
+    "status": "200"
+}
+```
+- **Respuesta Fallida**
+- **code:** 404
+- **Respuesta:**
+```json
+{
+    "message": "No se encontró la subraza con el id 1",
+    "status": 404
+}
+```
+
+##  conectarse a la base de datos mysql que está en un contenedor docker
+
+- entrar al contenedor dorcker de mysql
+```bash
+docker exec -it mysql bash
+```
+- conectarse a mysql
+```bash
+mysql -U root -p
+```
+- ingresar la contraseña
+```bash
+admin
+```
+- seleccionar la base de datos
+```bash
+use dog_manager;
+```
+- mostrar las tablas
+```bash
+show tables;
+```
+- mostrar los registros de una tabla
+```bash
+select * from Dogs;
+```
+

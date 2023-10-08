@@ -19,6 +19,6 @@ export class ErrorResponse {
 
   constructor(error: HttpException , message?: string, statusCode?: number) {
     this.statusCode = statusCode || error.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
-    this.message = message || error.message || 'Internal Server Error';
+    this.message = message || error.message || 'Internal Server Error 2';
   }
 }
