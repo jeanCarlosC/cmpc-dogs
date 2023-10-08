@@ -24,7 +24,9 @@ API de gestión de mascotas.
 - **src/breeds:** Carpeta que contiene los archivos de controlador, servicio, modelo y dto de la entidad breeds.
 - **src/subbreeds:** Carpeta que contiene los archivos de controlador, servicio, modelo y dto de la entidad subbreeds.
 - **src/modulo/validators:** Carpeta que contiene los archivos de validaciones que aplica el handler de validación.
+- **cmpc_dogs_model.png:** Imagen que contiene el modelo de datos de la base de datos.
 
+### Patrones de diseño implementados 📂
 
 Se implemento el patron de diseño Chain of Responsibility para la validación de las reglas de negocio, se creo una clase ValidationHandler al cual se le puede agregar un pool de validadores y la funcion handler los invoca opr medio de la funcion validate, si la validación es exitosa pasa al siguiente validador, si la validación falla se retorna un error con el mensaje correspondiente.
 
@@ -543,4 +545,6 @@ show tables;
 ```bash
 select * from Dogs;
 ```
+
+
 
