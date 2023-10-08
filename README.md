@@ -28,7 +28,7 @@ API de gestión de mascotas.
 
 ### Patrones de diseño implementados 📂
 
-Se implemento el patron de diseño Chain of Responsibility para la validación de las reglas de negocio, se creo una clase ValidationHandler al cual se le puede agregar un pool de validadores y la funcion handler los invoca opr medio de la funcion validate, si la validación es exitosa pasa al siguiente validador, si la validación falla se retorna un error con el mensaje correspondiente.
+Se implemento el patron de diseño Chain of Responsibility para la validación de las reglas de negocio, se creo una clase ValidationHandler al cual se le puede agregar un pool de validadores y la funcion handler los invoca por medio de la funcion validate, si la validación es exitosa pasa al siguiente validador, si la validación falla se retorna un error con el mensaje correspondiente.
 
 
 ### Pre-requisitos 📋
