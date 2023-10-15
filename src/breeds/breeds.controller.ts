@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Param, Put, Delete , ValidationPipe, UsePipes} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Put, Delete , ValidationPipe, UsePipes, UseGuards} from '@nestjs/common';
 import { BreedsService } from "./breeds.service";
 import { Breed } from "./breed.model";
 import { ValidationHandler } from 'src/common/validation-handler';
 import { ApiResponse, ErrorResponse } from 'src/common/response.dto';
 import { BreedExistsValidator } from './validators/breed-exists-validator';
+import { LocalAuthGuard } from '../auth/local-auth.guard';
 
 @Controller('breeds')
+@UseGuards(LocalAuthGuard) 
 export class BreedsController {
     constructor(private readonly breedsService: BreedsService, private readonly validationHandler: ValidationHandler) { }
 

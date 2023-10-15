@@ -52,6 +52,86 @@ En esta sección se detallan los endpoints disponibles en la API.
 
 Todos los endpoints reciben las siguientes cabeceras:
 - **Content-Type:** `application/json`
+- **Accept:** `application/json`
+- ** Authorization:** `Bearer <token>` (excepto el endpoint de login y crear usuario)
+
+En caso de que el token no sea válido, se retornará un error con el siguiente formato:
+```json
+{
+    "message": "No autorizado",
+    "status": 401
+}
+```
+
+#### Usuarios
+
+- **Descripción:** Crear un usuario.
+- **Método:** `POST`
+- **URL:** `/users`
+- **Body:**
+```json
+{
+    "username":"prueba",
+    "password":"admin",
+    "firstName":"Prueba",
+    "lastName":"Admin",
+    "email":"admin.admin@gamil.com",
+    "role":"admin"
+}
+```
+
+- **Respuesta:**
+```json
+{
+    "message": "Usuario creado correctamente",
+    "data": {
+        "id": 1,
+        "username":"prueba",
+        "password":"admin",
+        "firstName":"Prueba",
+        "lastName":"Admin",
+        "email":"admin.admin@gmail.com",
+        "role":"admin"
+    },
+    "status": "201"
+}
+```
+
+#### Autenticación
+
+- **Descripción:** Autenticar un usuario.
+- **Método:** `POST`
+- **URL:** `/auth/login`
+- **Body:**
+```json
+{
+    "username":"prueba",
+    "password":"admin"
+}
+```
+
+- **Respuesta:**
+```json
+{
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImplYW4uY3VhZHJvcyIsInN1YiI6....."
+    },
+    "message": "Login exitoso",
+    "statusCode": 200
+}
+```
+
+- **Respuesta Fallida**
+- **code:** 401
+- **Respuesta:**
+```json
+{
+    "message": "No autorizado",
+    "status": 401
+}
+```
+
+
 
 #### Mascotas
 

@@ -10,9 +10,11 @@ import { FindDogValidator } from './validators/find-dog-validator';
 import { ValidationHandler } from '../common/validation-handler';
 import { BreedsService } from 'src/breeds/breeds.service';
 import { SubbreedsService } from 'src/subbreeds/subbreeds.service';
+import { LocalAuthGuard } from '../auth/local-auth.guard';
 
 
 @Controller('dogs')
+@UseGuards(LocalAuthGuard) 
 export class DogsController {
     constructor(private readonly dogsService: DogsService, private readonly breedService: BreedsService, private readonly subbreedService: SubbreedsService, private validationHandler: ValidationHandler) { }
 

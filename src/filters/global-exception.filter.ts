@@ -1,4 +1,4 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, BadRequestException } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, HttpStatus, BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { Response } from 'express';
 import { ValidationError } from 'sequelize';
 
@@ -17,6 +17,11 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         if (exception instanceof HttpException) {
             status = exception.getStatus();
             message = exception.message;
+        }
+
+        if(exception instanceof UnauthorizedException){
+            status = exception.getStatus();
+            message = 'No autorizado';
         }
 
         if(exception instanceof BadRequestException){

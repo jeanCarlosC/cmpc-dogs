@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { AuthService } from '../auth/auth.service';
+import { classToPlain, Transform } from 'class-transformer';
 import { User } from './user.model';
 import { ApiResponse, ErrorResponse } from '../common/response.dto';
 
@@ -13,7 +13,8 @@ export class UsersController {
     async create(@Body() body: any): Promise<ApiResponse<User> | ErrorResponse> {
         try {
             const user: User = await this.usersService.create(body);
-            return new ApiResponse<User>(user, 'User created successfully.', 201);
+            user.password = undefined;
+            return new ApiResponse<User>(user, 'Usuario creado exitosamente.', 201);
         } catch (error) {
             return new ErrorResponse(error);
         }

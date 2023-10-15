@@ -4,21 +4,21 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 export class ApiResponse<T> {
   data: T;
   message: string;
-  statusCode: number;
+  status: number;
 
-  constructor(data: T, message: string, statusCode: number) {
+  constructor(data: T, message: string, status: number) {
     this.data = data;
     this.message = message;
-    this.statusCode = statusCode;
+    this.status = status;
   }
 }
 
 export class ErrorResponse {
-  statusCode: number;
+  status: number;
   message: string;
 
-  constructor(error: HttpException , message?: string, statusCode?: number) {
-    this.statusCode = statusCode || error.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
+  constructor(error: HttpException , message?: string, status?: number) {
+    this.status = status || error.getStatus() || HttpStatus.INTERNAL_SERVER_ERROR;
     this.message = message || error.message || 'Internal Server Error 2';
   }
 }

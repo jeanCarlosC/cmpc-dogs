@@ -13,6 +13,7 @@ import { GlobalExceptionFilter } from './filters/global-exception.filter';
 import { SubbreedsModule } from './subbreeds/subbreeds.module';
 
 import configuration from './config/configuration';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import configuration from './config/configuration';
     BreedsModule,
     SubbreedsModule,
     DogsModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [

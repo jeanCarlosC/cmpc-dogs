@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, HttpException, HttpStatus, ValidationPipe, UsePipes } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, HttpException, HttpStatus, ValidationPipe, UsePipes, UseGuards } from '@nestjs/common';
 import { SubbreedsService } from './subbreeds.service';
 import { Subbreed } from './subbreed.model';
 import { ApiResponse, ErrorResponse } from '../common/response.dto';
@@ -6,8 +6,10 @@ import { ValidationHandler } from '../common/validation-handler';
 import { SubBreedExistsValidator } from './validators/subbreed-exists-validator';
 import { BreedExistsValidator } from 'src/breeds/validators/breed-exist-validator';
 import { BreedsService } from 'src/breeds/breeds.service';
+import { LocalAuthGuard } from '../auth/local-auth.guard';
 
 @Controller('subbreeds')
+@UseGuards(LocalAuthGuard) 
 export class SubbreedsController {
     constructor(private readonly subbreedsService: SubbreedsService, private readonly breedsService: BreedsService,  private readonly validationHandler: ValidationHandler){}
 
