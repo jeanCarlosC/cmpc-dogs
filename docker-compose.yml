@@ -22,6 +22,8 @@ services:
       - mysql
     networks:
       - nestjs-network
+    volumes:
+      - ./src:/app/src
 
 networks:
   nestjs-network:
